@@ -4,43 +4,35 @@ import streamlit as st
 def load_css():
     st.markdown("""
     <style>
-    /* 隐藏 Streamlit 默认的右上角菜单和底部水印（让网站看起来更专业） */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-
-    /* 全局按钮炫酷渐变色 */
-    div.stButton > button:first-child {
-        background-image: linear-gradient(to right, #7792E3 0%, #6956EC 51%, #7792E3 100%);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        transition: 0.5s;
-        background-size: 200% auto;
+    /* 1. 按钮透明度优化：使用 rgba (红, 绿, 蓝, 透明度) */
+    /* Alpha 设为 0.2，即 20% 的透明度，看起来更高级、不刺眼 */
+    button {
+        background-color: rgba(119, 146, 227, 0.2) !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        transition: 0.3s !important;
     }
-    div.stButton > button:hover {
-        background-position: right center; 
+    button:hover {
+        background-color: rgba(119, 146, 227, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
     }
 
-    /* 背景 LaTeX 水印装饰的绝对定位 CSS */
-    .bg-latex-watermark {
+    /* 2. 让公式水印更加优雅 */
+    .latex-watermark {
         position: fixed;
-        bottom: -50px;
-        right: -30px;
-        font-size: 100px;
-        color: rgba(255, 255, 255, 0.04); /* 极低透明度，若隐若现 */
-        z-index: -100; /* 藏在最底下，不影响点击 */
-        pointer-events: none; /* 鼠标穿透 */
-        user-select: none; /* 无法选中 */
-        transform: rotate(-15deg); /* 倾斜一点更有艺术感 */
+        bottom: 20px;
+        right: 20px;
+        opacity: 0.1; /* 10% 透明度 */
+        z-index: 0;
+        pointer-events: none;
     }
     </style>
     """, unsafe_allow_html=True)
 
 def render_latex_decorations():
-    # 使用著名的欧拉公式和微积分符号作为背景水印
-    watermark_html = """
-    <div class="bg-latex-watermark">
-        $$ \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi} $$
-    </div>
-    """
-    st.markdown(watermark_html, unsafe_allow_html=True)
+    # 改用 streamlit 原生的 st.latex()，它会自动调用 KaTeX 渲染
+    # 我们用一个 div 包裹它，并赋予刚才定义好的 CSS 类名
+    st.markdown('<div class="latex-watermark">', unsafe_allow_html=True)
+    st.latex(r"\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}")
+    st.markdown('</div>', unsafe_allow_html=True)
