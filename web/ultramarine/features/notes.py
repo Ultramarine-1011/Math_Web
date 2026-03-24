@@ -17,10 +17,9 @@ def get_note_catalog(catalog_path: str, notes_dir: str) -> tuple[list[NoteEntry]
 
 def render(settings: AppSettings) -> None:
     render_page_intro(
-        "Notes",
-        "课程笔记改成了“PDF 文件 + JSON 清单”的形式。这样既能保留仓库里的静态资料，"
-        "又能在页面层面拿到更好的摘要、标签和排序能力。",
-        kicker="Structured Notes Library",
+        "笔记资料",
+        "这里整理了我目前收集和撰写的课程笔记。你可以按标签筛选，也可以直接在线预览。",
+        kicker="资料整理",
     )
 
     notes, missing_files = get_note_catalog(

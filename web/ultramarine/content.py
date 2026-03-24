@@ -3,14 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 
-SITE_BLURB = (
-    "A public-facing mathematics studio that combines visual essays, lecture notes,"
-    " experiments, and a lightweight community board."
-)
+SITE_BLURB = "一个面向公开展示的数学空间，收纳图形、动画、笔记与交流。"
 
 HOME_INTRO = (
-    "The rebuilt site turns a collection of independent demos into a coherent mathematics portfolio."
-    " Visualizations, notes, animations, and discussions now share one production-ready shell."
+    "这里汇集了我的数学可视化作品、课程笔记与互动实验。"
+    "你可以在不同页面之间切换，按自己的节奏浏览、观看和探索。"
 )
 
 
@@ -25,48 +22,48 @@ class FeatureCard:
 
 FEATURE_CARDS = (
     FeatureCard(
-        title="Interactive Lab",
-        icon="LAB",
+        title="互动实验室",
+        icon="实验",
         path="interactive-lab",
-        summary="Fourier drawing, gradient descent, and random simulation in one place.",
-        detail="The page keeps the original mathematical ideas, but the implementation is now easier to extend.",
+        summary="把傅里叶级数、梯度下降和随机模拟放进同一个实验空间。",
+        detail="可以调参数、看过程，也可以把它当成一间持续扩充的小型数学实验台。",
     ),
     FeatureCard(
-        title="Gallery",
-        icon="GAL",
+        title="数学画廊",
+        icon="画廊",
         path="gallery",
-        summary="A curated visual gallery for dynamical systems and iconic algebraic curves.",
-        detail="Static exhibits now share one visual language and one chart stack.",
+        summary="收纳动力系统与经典代数曲线，适合沉浸式浏览。",
+        detail="更偏向静态观赏，但依然保留旋转、缩放和细看结构的空间。",
     ),
     FeatureCard(
-        title="Animations",
-        icon="ANM",
+        title="数学动画",
+        icon="动画",
         path="animations",
-        summary="Linear algebra and geometry presented as continuous motion rather than snapshots.",
-        detail="The focus is on transformation and intuition, not only the final result.",
+        summary="用连续运动来呈现线性代数与几何中的变化过程。",
+        detail="重点不只是结果，而是结构如何一步步变形、展开和过渡。",
     ),
     FeatureCard(
-        title="Notes",
+        title="笔记资料",
         icon="PDF",
         path="notes",
-        summary="A structured note library driven by PDF files and a catalog manifest.",
-        detail="Each note can now carry tags, summaries, and featured ordering.",
+        summary="按专题整理的 PDF 笔记库，支持摘要、标签与在线预览。",
+        detail="适合系统查阅，也适合按兴趣快速翻找某一门课程的资料。",
     ),
     FeatureCard(
-        title="Community",
-        icon="MSG",
+        title="交流广场",
+        icon="交流",
         path="community",
-        summary="A small but durable discussion board for comments and appreciation.",
-        detail="It supports either local JSON storage or a Supabase backend for deployment.",
+        summary="一个轻量的留言空间，用来分享想法、提问和留下阅读感受。",
+        detail="不追求复杂功能，只保留最直接、最克制的交流方式。",
     ),
 )
 
 
 PAGE_DESCRIPTIONS = {
-    "home": "The public landing page for the rebuilt site.",
-    "interactive": "An experiment-driven space for mathematical interaction.",
-    "gallery": "A browseable visual gallery for mathematical forms.",
-    "animations": "A motion-focused page for continuous transformations.",
-    "notes": "A searchable and previewable notes library.",
-    "community": "A lightweight, deployment-friendly discussion area.",
+    "home": "站点首页。",
+    "interactive": "以实验为核心的互动页面。",
+    "gallery": "适合浏览与观赏的数学图形页面。",
+    "animations": "强调连续变化与动画过程的页面。",
+    "notes": "可筛选、可预览的笔记资料页。",
+    "community": "轻量留言与交流页面。",
 }

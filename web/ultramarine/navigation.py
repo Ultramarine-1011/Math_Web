@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import streamlit as st
 
@@ -26,36 +26,36 @@ def _page(
 
 def build_navigation(settings: AppSettings):
     pages = {
-        "home": _page(home, settings, title="Home", icon=":material/home:", url_path="home", default=True),
+        "home": _page(home, settings, title="首页", icon=":material/home:", url_path="home", default=True),
         "interactive-lab": _page(
             interactive,
             settings,
-            title="Interactive Lab",
+            title="互动实验室",
             icon=":material/science:",
             url_path="interactive-lab",
         ),
-        "gallery": _page(gallery, settings, title="Gallery", icon=":material/auto_awesome:", url_path="gallery"),
+        "gallery": _page(gallery, settings, title="数学画廊", icon=":material/auto_awesome:", url_path="gallery"),
         "animations": _page(
             animations,
             settings,
-            title="Animations",
+            title="数学动画",
             icon=":material/animation:",
             url_path="animations",
         ),
-        "notes": _page(notes, settings, title="Notes", icon=":material/menu_book:", url_path="notes"),
+        "notes": _page(notes, settings, title="笔记资料", icon=":material/menu_book:", url_path="notes"),
         "community": _page(
             community,
             settings,
-            title="Community",
+            title="交流广场",
             icon=":material/forum:",
             url_path="community",
         ),
     }
     current_page = st.navigation(
         {
-            "Overview": [pages["home"]],
-            "Explore": [pages["interactive-lab"], pages["gallery"], pages["animations"]],
-            "Library": [pages["notes"], pages["community"]],
+            "总览": [pages["home"]],
+            "探索": [pages["interactive-lab"], pages["gallery"], pages["animations"]],
+            "资料与交流": [pages["notes"], pages["community"]],
         },
         position="top",
     )

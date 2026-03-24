@@ -85,13 +85,12 @@ def build_heart_figure(x_value: np.ndarray, y_value: np.ndarray) -> go.Figure:
 def render(settings: AppSettings) -> None:
     del settings
     render_page_intro(
-        "Gallery",
-        "The gallery keeps the original mathematical themes, but presents them inside a cleaner"
-        " public-facing visual shell.",
-        kicker="Curated Visuals",
+        "数学画廊",
+        "这里放的是更适合静心观看的数学图形。你可以旋转、缩放，慢慢观察结构本身的美感。",
+        kicker="图形浏览",
     )
 
-    tab_lorenz, tab_heart = st.tabs(["Lorenz Attractor", "Heart Curve"])
+    tab_lorenz, tab_heart = st.tabs(["洛伦兹吸引子", "心形曲线"])
 
     with tab_lorenz:
         st.latex(

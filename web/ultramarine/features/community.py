@@ -40,10 +40,9 @@ def _render_status(handle: CommentRepositoryHandle) -> None:
 
 def render(settings: AppSettings) -> None:
     render_page_intro(
-        "Community",
-        "留言广场仍然保持轻量，但已经从直接写 JSON 文件升级为仓储模式。"
-        "如果检测到 Supabase 配置，就会自动启用云端写入；否则按本地或只读方式运行。",
-        kicker="Lightweight Discussion",
+        "交流广场",
+        "如果你愿意，可以在这里留下一句想法、问题或阅读感受。",
+        kicker="轻量交流",
     )
     handle = get_repository_handle(settings)
     repo = handle.repo

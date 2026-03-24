@@ -26,20 +26,20 @@ def render(settings: AppSettings) -> None:
     st.markdown(
         f"""
         <section class="hero-shell">
-            <div class="hero-kicker">Public Mathematics Studio</div>
+            <div class="hero-kicker">个人数学空间</div>
             <h1 class="hero-title">{settings.site_title}</h1>
             <p class="hero-lead">{HOME_INTRO}</p>
             <div class="meta-row">
                 <div class="metric-card">
-                    <div class="metric-label">Pages</div>
+                    <div class="metric-label">页面</div>
                     <div class="metric-value">6</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Notes</div>
+                    <div class="metric-label">笔记</div>
                     <div class="metric-value">{note_count}</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Featured Notes</div>
+                    <div class="metric-label">推荐资料</div>
                     <div class="metric-value">{featured_count}</div>
                 </div>
             </div>
@@ -49,7 +49,7 @@ def render(settings: AppSettings) -> None:
     )
 
     st.markdown('<div class="section-spacer"></div>', unsafe_allow_html=True)
-    st.markdown("## Site Map")
+    st.markdown("## 页面导览")
     columns = st.columns(2)
     for index, card in enumerate(FEATURE_CARDS):
         with columns[index % 2]:
@@ -67,28 +67,28 @@ def render(settings: AppSettings) -> None:
             if page is not None:
                 st.page_link(
                     page,
-                    label=f"Open {card.title}",
+                    label=f"进入 {card.title}",
                     width="stretch",
                 )
 
-    st.markdown("## What Changed")
+    st.markdown("## 浏览建议")
     left, right = st.columns([1.15, 0.85])
     with left:
         st.markdown(
             """
-            - The home page handles branding and navigation instead of business logic.
-            - Every page exposes one `render(settings)` entry point.
-            - Computation, note metadata, and comment storage now live outside the UI layer.
+            - 如果你想先看动态内容，可以从互动实验室和数学动画开始。
+            - 如果你更喜欢静态图形与整体观赏，数学画廊会更合适。
+            - 如果你是来查资料，直接进入笔记资料页会更高效。
             """
         )
     with right:
         st.markdown(
             """
             <div class="note-card">
-                <div class="note-title">Deployment Notes</div>
+                <div class="note-title">关于这里</div>
                 <p class="note-summary">
-                    This version is organized for Streamlit Cloud. Add Supabase secrets and
-                    the community page will switch to cloud-backed writes automatically.
+                    这里更像一间持续更新的个人数学工作室：
+                    有图形、有动画、有笔记，也留了一块简洁的交流空间。
                 </p>
             </div>
             """,

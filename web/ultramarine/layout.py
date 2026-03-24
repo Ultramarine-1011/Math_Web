@@ -15,14 +15,14 @@ def render_sidebar(settings: AppSettings) -> None:
         else:
             st.markdown(
                 '<div class="sidebar-card"><h3 style="margin-top:0;">Ultramarine</h3>'
-                '<p class="muted" style="margin-bottom:0;">Local portrait not found. Text-only fallback is active.</p></div>',
+                '<p class="muted" style="margin-bottom:0;">未找到本地头像，当前使用文字占位展示。</p></div>',
                 unsafe_allow_html=True,
             )
 
         st.markdown(
             f"""
             <div class="sidebar-card" style="margin-top: 1rem;">
-                <div class="metric-label">Mathematics Atelier</div>
+                <div class="metric-label">数学空间</div>
                 <div class="metric-value" style="font-size:1.35rem;">{settings.profile_name}</div>
                 <p class="muted" style="margin:0.55rem 0 0;">{SITE_BLURB}</p>
             </div>
@@ -30,9 +30,7 @@ def render_sidebar(settings: AppSettings) -> None:
             unsafe_allow_html=True,
         )
 
-        st.caption(
-            "Navigation now uses native multipage routing. Experiments, notes, animations, and community pages all sit on the same shell."
-        )
+        st.caption("从这里可以快速切换到实验、画廊、动画、笔记和交流页面。")
 
 
 def render_page_intro(title: str, lead: str, kicker: str | None = None) -> None:
@@ -68,7 +66,7 @@ def render_metric_cards(items: Iterable[tuple[str, str]]) -> None:
 def render_debug_panel(settings: AppSettings, backend_label: str | None = None) -> None:
     if not settings.debug:
         return
-    with st.sidebar.expander("Debug self-check", expanded=False):
+    with st.sidebar.expander("开发自检", expanded=False):
         st.write(
             {
                 "photo_exists": settings.photo_path.exists(),

@@ -89,7 +89,7 @@ def build_linear_transform_figure(
                 "type": "buttons",
                 "buttons": [
                     {
-                        "label": "Play transform",
+                        "label": "播放变换",
                         "method": "animate",
                         "args": [None, {"frame": {"duration": 45, "redraw": True}, "fromcurrent": False}],
                     }
@@ -144,7 +144,7 @@ def build_surface_figure(initial_surface: tuple[np.ndarray, np.ndarray, np.ndarr
                 "type": "buttons",
                 "buttons": [
                     {
-                        "label": "Play morph",
+                        "label": "播放形变",
                         "method": "animate",
                         "args": [None, {"frame": {"duration": 60, "redraw": True}, "fromcurrent": True}],
                     }
@@ -168,16 +168,15 @@ def build_surface_figure(initial_surface: tuple[np.ndarray, np.ndarray, np.ndarr
 def render(settings: AppSettings) -> None:
     del settings
     render_page_intro(
-        "Animations",
-        "These exhibits focus on process. One demo shows how a basis transforms in the plane;"
-        " the other tracks a continuous surface deformation.",
-        kicker="Mathematical Motion",
+        "数学动画",
+        "这一页更强调过程本身。与其只看结果，不如把变化完整看一遍。",
+        kicker="变化过程",
     )
 
-    tab_linear, tab_surface = st.tabs(["Linear Algebra", "Surface Morph"])
+    tab_linear, tab_surface = st.tabs(["线性代数", "曲面形变"])
 
     with tab_linear:
-        st.markdown("### Continuous linear transformation")
+        st.markdown("### 连续线性变换")
         c1, c2 = st.columns(2)
         a11 = c1.number_input("a11", -2.0, 2.0, 1.5, 0.1)
         a21 = c1.number_input("a21", -2.0, 2.0, 0.5, 0.1)
@@ -190,11 +189,11 @@ def render(settings: AppSettings) -> None:
         with info_col:
             st.latex(f"\\det(A) = {determinant:.2f}")
             if determinant < 0:
-                st.warning("This matrix reverses orientation.")
+                st.warning("这个矩阵会翻转空间方向。")
             elif abs(determinant) < 0.05:
-                st.info("The determinant is near zero, so the plane is almost collapsed.")
+                st.info("行列式接近零，空间被压缩得非常明显。")
             else:
-                st.success(f"Area is scaled by a factor of {abs(determinant):.2f}.")
+                st.success(f"面积被缩放为原来的 {abs(determinant):.2f} 倍。")
         with chart_col:
             st.plotly_chart(
                 build_linear_transform_figure(transformed, i_hat, j_hat, frames),
@@ -202,7 +201,7 @@ def render(settings: AppSettings) -> None:
             )
 
     with tab_surface:
-        st.markdown("### From catenoid to helicoid")
+        st.markdown("### 从悬链曲面到螺旋曲面")
         initial_surface, frames = compute_surface_frames()
         st.plotly_chart(
             build_surface_figure(initial_surface, frames),
