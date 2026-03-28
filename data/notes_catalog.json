@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "math-analysis-upper",
+    "title": "数学分析笔记（上册）",
+    "summary": "围绕极限、连续、微分和积分展开的基础分析笔记，适合作为后续实变与泛函内容的入口。",
+    "file_name": "数学分析笔记（上册）.pdf",
+    "tags": ["数学分析", "微积分"],
+    "featured": true,
+    "sort_order": 10
+  },
+  {
+    "slug": "math-analysis-lower",
+    "title": "数学分析笔记（下册）",
+    "summary": "聚焦多元微分、级数与高阶分析工具，和上册一起构成完整的数学分析复习框架。",
+    "file_name": "数学分析笔记（下册）.pdf",
+    "tags": ["数学分析", "级数"],
+    "featured": true,
+    "sort_order": 20
+  },
+  {
+    "slug": "math-analysis-complete",
+    "title": "数学分析笔记（完整）",
+    "summary": "把上下册内容合并后的整合版本，适合打印、通读和总复习。",
+    "file_name": "数学分析笔记（完整）.pdf",
+    "tags": ["数学分析", "总复习"],
+    "featured": false,
+    "sort_order": 30
+  },
+  {
+    "slug": "advanced-algebra-upper",
+    "title": "高等代数笔记（上册）",
+    "summary": "覆盖线性方程组、矩阵、行列式与线性空间，是线性代数动画页背后的理论储备。",
+    "file_name": "高等代数笔记（上册）.pdf",
+    "tags": ["高等代数", "线性代数"],
+    "featured": true,
+    "sort_order": 40
+  },
+  {
+    "slug": "advanced-algebra-lower",
+    "title": "高等代数笔记（下册）",
+    "summary": "继续整理特征值、二次型、线性变换等主题，便于和互动实验页互相对应。",
+    "file_name": "高等代数笔记（下册）.pdf",
+    "tags": ["高等代数", "线性变换"],
+    "featured": false,
+    "sort_order": 50
+  },
+  {
+    "slug": "advanced-algebra-complete",
+    "title": "高等代数笔记（完整）",
+    "summary": "高等代数上下册合并版，适合集中查阅与课程回顾。",
+    "file_name": "高等代数笔记（完整）.pdf",
+    "tags": ["高等代数", "总复习"],
+    "featured": false,
+    "sort_order": 60
+  },
+  {
+    "slug": "real-analysis",
+    "title": "实变函数笔记",
+    "summary": "整理测度、可测函数与积分理论，是从经典分析走向现代分析的重要过渡。",
+    "file_name": "实变函数笔记.pdf",
+    "tags": ["实变函数", "测度论"],
+    "featured": true,
+    "sort_order": 70
+  },
+  {
+    "slug": "abstract-algebra",
+    "title": "抽象代数笔记",
+    "summary": "收录群、环、域等代数结构的课程整理，适合与高等代数形成对照阅读。",
+    "file_name": "抽象代数笔记.pdf",
+    "tags": ["抽象代数", "代数结构"],
+    "featured": false,
+    "sort_order": 80
+  },
+  {
+    "slug": "topology",
+    "title": "拓扑学笔记",
+    "summary": "从开集、连续性到紧致与连通，帮助理解动画页中的连续形变视角。",
+    "file_name": "拓扑学笔记.pdf",
+    "tags": ["拓扑学", "连续形变"],
+    "featured": false,
+    "sort_order": 90
+  },
+  {
+    "slug": "elementary-number-theory",
+    "title": "初等数论笔记",
+    "summary": "关于整除、不定方程、同余与算术函数的课程摘要，适合做离散方向的补充阅读。",
+    "file_name": "初等数论笔记.pdf",
+    "tags": ["数论", "离散数学"],
+    "featured": false,
+    "sort_order": 100
+  }
+]
