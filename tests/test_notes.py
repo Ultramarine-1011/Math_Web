@@ -43,3 +43,13 @@ def test_load_note_entries_skips_missing_files(tmp_path: Path) -> None:
 
     assert [note.slug for note in notes] == ["existing"]
     assert missing_files == ["missing.pdf"]
+
+
+def test_load_note_entries_handles_invalid_catalog(tmp_path: Path) -> None:
+    catalog_path = tmp_path / "notes_catalog.json"
+    catalog_path.write_text("{bad json", encoding="utf-8")
+
+    notes, missing_files = load_note_entries(catalog_path, tmp_path)
+
+    assert notes == []
+    assert missing_files == []

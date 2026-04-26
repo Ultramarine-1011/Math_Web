@@ -8,8 +8,11 @@ SMOKE_SCRIPTS = [
     "tests/smoke_apps/interactive_app.py",
     "tests/smoke_apps/gallery_app.py",
     "tests/smoke_apps/animations_app.py",
+    "tests/smoke_apps/complex_lab_app.py",
+    "tests/smoke_apps/fractals_app.py",
     "tests/smoke_apps/notes_app.py",
     "tests/smoke_apps/community_app.py",
+    "tests/smoke_apps/tutor_app.py",
     "app.py",
 ]
 

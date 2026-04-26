@@ -11,7 +11,7 @@ from ultramarine.models import AppSettings, Comment
 
 COMMENT_COOLDOWN_SECONDS = 15
 MAX_NICKNAME_LENGTH = 24
-MAX_CONTENT_LENGTH = 400
+MAX_CONTENT_LENGTH = 1200
 
 
 class CommentRepository(Protocol):
@@ -47,6 +47,9 @@ def validate_comment_input(nickname: str, content: str) -> str | None:
         return "留言内容不能为空。"
     if len(clean_content) > MAX_CONTENT_LENGTH:
         return f"留言请控制在 {MAX_CONTENT_LENGTH} 个字符以内。"
+    lowered = clean_content.lower()
+    if "<script" in lowered or "javascript:" in lowered:
+        return "留言支持 Markdown，但不允许提交脚本内容。"
     return None
 
 

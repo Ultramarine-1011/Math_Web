@@ -16,6 +16,9 @@ class AppSettings:
     supabase_url: str | None = None
     supabase_key: str | None = None
     supabase_comments_table: str = "comments"
+    llm_api_key: str | None = None
+    llm_base_url: str = "https://api.openai.com/v1"
+    llm_model: str = "gpt-4o-mini"
 
 
 @dataclass(frozen=True, slots=True)

@@ -105,7 +105,9 @@ def build_settings(tmp_path: Path) -> AppSettings:
 def test_validate_comment_input() -> None:
     assert validate_comment_input("", "hello") == "请先填写昵称。"
     assert validate_comment_input("name", "") == "留言内容不能为空。"
+    assert validate_comment_input("name", "<script>alert(1)</script>") == "留言支持 Markdown，但不允许提交脚本内容。"
     assert validate_comment_input("ok", "valid") is None
+    assert validate_comment_input("ok", "```python\nprint('markdown')\n```") is None
 
 
 def test_json_comment_repository_round_trip(tmp_path: Path) -> None:

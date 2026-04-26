@@ -5,7 +5,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from ultramarine.data.notes import load_note_entries, read_note_bytes
+from ultramarine.data.notes import load_note_entries
 from ultramarine.layout import render_page_intro
 from ultramarine.models import AppSettings, NoteEntry
 
@@ -13,6 +13,16 @@ from ultramarine.models import AppSettings, NoteEntry
 @st.cache_data(show_spinner=False)
 def get_note_catalog(catalog_path: str, notes_dir: str) -> tuple[list[NoteEntry], list[str]]:
     return load_note_entries(Path(catalog_path), Path(notes_dir))
+
+
+@st.cache_data(show_spinner=False)
+def get_note_file_bytes(notes_dir: str, file_name: str) -> bytes:
+    return (Path(notes_dir) / file_name).read_bytes()
+
+
+@st.cache_data(show_spinner=False)
+def encode_pdf(file_bytes: bytes) -> str:
+    return base64.b64encode(file_bytes).decode("utf-8")
 
 
 def render(settings: AppSettings) -> None:
@@ -34,7 +44,7 @@ def render(settings: AppSettings) -> None:
         return
 
     all_tags = sorted({tag for note in notes for tag in note.tags})
-    selected_tags = st.multiselect("按标签筛选", all_tags)
+    selected_tags = st.multiselect("按标签筛选", all_tags, key="notes_selected_tags")
     filtered_notes = [
         note for note in notes if not selected_tags or all(tag in note.tags for tag in selected_tags)
     ]
@@ -64,7 +74,7 @@ def render(settings: AppSettings) -> None:
         format_func=lambda slug: options[slug].title,
     )
     selected_note = options[selected_slug]
-    file_bytes = read_note_bytes(settings.notes_dir, selected_note)
+    file_bytes = get_note_file_bytes(str(settings.notes_dir), selected_note.file_name)
 
     info_col, detail_col = st.columns([1.1, 1.9])
     with info_col:
@@ -87,7 +97,7 @@ def render(settings: AppSettings) -> None:
 
     with detail_col:
         with st.expander("在线预览", expanded=True):
-            base64_pdf = base64.b64encode(file_bytes).decode("utf-8")
+            base64_pdf = encode_pdf(file_bytes)
             st.markdown(
                 f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="820" type="application/pdf"></iframe>',
                 unsafe_allow_html=True,

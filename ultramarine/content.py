@@ -6,8 +6,8 @@ from dataclasses import dataclass
 SITE_BLURB = "一个面向公开展示的数学空间，收纳图形、动画、笔记与交流。"
 
 HOME_INTRO = (
-    "这里汇集了我的数学可视化作品、课程笔记与互动实验。"
-    "你可以在不同页面之间切换，按自己的节奏浏览、观看和探索。"
+    "这里汇集数学可视化、课程笔记、交互实验与学习助教。"
+    "它既是个人学术主页，也是一间可持续扩展的暗黑数学博物馆。"
 )
 
 
@@ -56,6 +56,27 @@ FEATURE_CARDS = (
         summary="一个轻量的留言空间，用来分享想法、提问和留下阅读感受。",
         detail="不追求复杂功能，只保留最直接、最克制的交流方式。",
     ),
+    FeatureCard(
+        title="复变映射",
+        icon="复变",
+        path="complex-lab",
+        summary="用相位色域和网格变形观察复函数如何扭曲平面。",
+        detail="从 z²、反演、指数到圆盘自同构，把抽象映射变成可读图像。",
+    ),
+    FeatureCard(
+        title="分形天文台",
+        icon="分形",
+        path="fractals",
+        summary="实时探索 Mandelbrot 与 Julia 集的逃逸时间图。",
+        detail="一条二次迭代公式生成无限层级的边界细节。",
+    ),
+    FeatureCard(
+        title="AI 助教",
+        icon="AI",
+        path="tutor",
+        summary="把数学问题、证明提示和站内笔记清单连接起来。",
+        detail="没有 API key 时保持离线演示，有密钥时可作为学习对话框使用。",
+    ),
 )
 
 
@@ -64,6 +85,9 @@ PAGE_DESCRIPTIONS = {
     "interactive": "以实验为核心的互动页面。",
     "gallery": "适合浏览与观赏的数学图形页面。",
     "animations": "强调连续变化与动画过程的页面。",
+    "complex_lab": "复变函数映射与相位色域页面。",
+    "fractals": "Mandelbrot 与 Julia 分形探索页面。",
     "notes": "可筛选、可预览的笔记资料页。",
     "community": "轻量留言与交流页面。",
+    "tutor": "可选的大模型数学助教页面。",
 }

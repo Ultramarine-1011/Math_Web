@@ -2,7 +2,17 @@ from __future__ import annotations
 
 import streamlit as st
 
-from ultramarine.features import animations, community, gallery, home, interactive, notes
+from ultramarine.features import (
+    animations,
+    community,
+    complex_lab,
+    fractals,
+    gallery,
+    home,
+    interactive,
+    notes,
+    tutor,
+)
 from ultramarine.models import AppSettings
 
 
@@ -42,6 +52,20 @@ def build_navigation(settings: AppSettings):
             icon=":material/animation:",
             url_path="animations",
         ),
+        "complex-lab": _page(
+            complex_lab,
+            settings,
+            title="复变映射",
+            icon=":material/cyclone:",
+            url_path="complex-lab",
+        ),
+        "fractals": _page(
+            fractals,
+            settings,
+            title="分形天文台",
+            icon=":material/grain:",
+            url_path="fractals",
+        ),
         "notes": _page(notes, settings, title="笔记资料", icon=":material/menu_book:", url_path="notes"),
         "community": _page(
             community,
@@ -50,12 +74,19 @@ def build_navigation(settings: AppSettings):
             icon=":material/forum:",
             url_path="community",
         ),
+        "tutor": _page(tutor, settings, title="AI 助教", icon=":material/smart_toy:", url_path="tutor"),
     }
     current_page = st.navigation(
         {
             "总览": [pages["home"]],
-            "探索": [pages["interactive-lab"], pages["gallery"], pages["animations"]],
-            "资料与交流": [pages["notes"], pages["community"]],
+            "探索": [
+                pages["interactive-lab"],
+                pages["gallery"],
+                pages["animations"],
+                pages["complex-lab"],
+                pages["fractals"],
+            ],
+            "资料与交流": [pages["notes"], pages["community"], pages["tutor"]],
         },
         position="top",
     )

@@ -34,6 +34,24 @@ def _resolve_path(base_dir: Path, candidate: str | None, fallback: str) -> Path:
     return path
 
 
+def _read_dotenv(base_dir: Path) -> dict[str, str]:
+    dotenv_path = base_dir / ".env"
+    if not dotenv_path.exists():
+        return {}
+
+    values: dict[str, str] = {}
+    for raw_line in dotenv_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        clean_key = key.strip()
+        clean_value = value.strip().strip('"').strip("'")
+        if clean_key:
+            values[clean_key] = clean_value
+    return values
+
+
 def load_settings(
     *,
     env: Mapping[str, str] | None = None,
@@ -43,6 +61,7 @@ def load_settings(
     env_map = dict(os.environ if env is None else env)
     secret_map = dict(_read_secrets() if secrets is None else secrets)
     root_dir = base_dir or Path(__file__).resolve().parent.parent
+    dotenv_map = _read_dotenv(root_dir) if env is None else {}
 
     site_title = env_map.get("SITE_TITLE", "Ultramarine Mathematics Atelier")
     profile_name = env_map.get("PROFILE_NAME", "Ultramarine")
@@ -63,6 +82,31 @@ def load_settings(
         or secret_map.get("SUPABASE_COMMENTS_TABLE")
         or "comments"
     )
+    llm_api_key = (
+        env_map.get("LLM_API_KEY")
+        or env_map.get("OPENAI_API_KEY")
+        or env_map.get("DEEPSEEK_API_KEY")
+        or secret_map.get("LLM_API_KEY")
+        or secret_map.get("OPENAI_API_KEY")
+        or secret_map.get("DEEPSEEK_API_KEY")
+        or dotenv_map.get("LLM_API_KEY")
+        or dotenv_map.get("OPENAI_API_KEY")
+        or dotenv_map.get("DEEPSEEK_API_KEY")
+    )
+    llm_base_url = (
+        env_map.get("LLM_BASE_URL")
+        or secret_map.get("LLM_BASE_URL")
+        or dotenv_map.get("LLM_BASE_URL")
+        or ("https://api.deepseek.com/v1" if dotenv_map.get("DEEPSEEK_API_KEY") else None)
+        or "https://api.openai.com/v1"
+    )
+    llm_model = (
+        env_map.get("LLM_MODEL")
+        or secret_map.get("LLM_MODEL")
+        or dotenv_map.get("LLM_MODEL")
+        or ("deepseek-chat" if dotenv_map.get("DEEPSEEK_API_KEY") else None)
+        or "gpt-4o-mini"
+    )
 
     return AppSettings(
         site_title=site_title,
@@ -75,5 +119,8 @@ def load_settings(
         supabase_url=supabase_url,
         supabase_key=supabase_key,
         supabase_comments_table=supabase_comments_table,
+        llm_api_key=llm_api_key,
+        llm_base_url=llm_base_url,
+        llm_model=llm_model,
     )
 

@@ -13,22 +13,38 @@ def load_note_entries(
     if not catalog_path.exists():
         return [], []
 
-    payload = json.loads(catalog_path.read_text(encoding="utf-8"))
+    try:
+        payload = json.loads(catalog_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return [], []
+    if not isinstance(payload, list):
+        return [], []
+
     entries: list[NoteEntry] = []
     missing_files: list[str] = []
+    seen_slugs: set[str] = set()
 
     for item in payload:
-        file_name = item["file_name"]
+        if not isinstance(item, dict):
+            continue
+        required = ("slug", "title", "summary", "file_name")
+        if any(not str(item.get(field, "")).strip() for field in required):
+            continue
+        slug = str(item["slug"])
+        if slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+        file_name = str(item["file_name"])
         if not (notes_dir / file_name).exists():
             missing_files.append(file_name)
             continue
         entries.append(
             NoteEntry(
-                slug=item["slug"],
-                title=item["title"],
-                summary=item["summary"],
+                slug=slug,
+                title=str(item["title"]),
+                summary=str(item["summary"]),
                 file_name=file_name,
-                tags=tuple(item.get("tags", [])),
+                tags=tuple(str(tag) for tag in item.get("tags", []) if str(tag).strip()),
                 featured=bool(item.get("featured", False)),
                 sort_order=int(item.get("sort_order", 0)),
             )

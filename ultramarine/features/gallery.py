@@ -8,6 +8,7 @@ from scipy.integrate import odeint
 from ultramarine.layout import render_page_intro
 from ultramarine.models import AppSettings
 from ultramarine.theme import PALETTE, transparent_plotly_layout
+from ultramarine.ui import render_chart_shell, render_glass_card
 
 
 @st.cache_data(show_spinner=False)
@@ -33,7 +34,7 @@ def build_lorenz_figure(time: np.ndarray, x_value: np.ndarray, y_value: np.ndarr
                 y=y_value,
                 z=z_value,
                 mode="lines",
-                line={"color": time, "colorscale": "Plasma", "width": 4},
+                line={"color": time, "colorscale": "Turbo", "width": 5},
             )
         ]
     )
@@ -103,16 +104,23 @@ def render(settings: AppSettings) -> None:
             """
         )
         col1, col2, col3 = st.columns(3)
-        sigma = col1.slider("sigma", 5.0, 15.0, 10.0)
-        rho = col2.slider("rho", 10.0, 40.0, 28.0)
-        beta = col3.slider("beta", 1.0, 5.0, 2.667)
+        sigma = col1.slider("sigma", 5.0, 15.0, 10.0, key="lorenz_sigma")
+        rho = col2.slider("rho", 10.0, 40.0, 28.0, key="lorenz_rho")
+        beta = col3.slider("beta", 1.0, 5.0, 2.667, key="lorenz_beta")
         time, x_value, y_value, z_value = solve_lorenz(sigma, rho, beta)
+        render_chart_shell("Lorenz Attractor")
         st.plotly_chart(
             build_lorenz_figure(time, x_value, y_value, z_value),
             width="stretch",
         )
 
     with tab_heart:
+        render_glass_card(
+            "参数曲线",
+            "这条经典心形曲线保留了数学画廊中偏静态观赏的一面。",
+            kicker="Parametric Curve",
+            tags=("代数曲线", "参数化"),
+        )
         st.latex(
             r"""
             \begin{cases}
@@ -122,4 +130,5 @@ def render(settings: AppSettings) -> None:
             """
         )
         x_value, y_value = compute_heart_curve()
+        render_chart_shell("Heart Curve")
         st.plotly_chart(build_heart_figure(x_value, y_value), width="stretch")

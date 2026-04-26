@@ -12,6 +12,7 @@ from ultramarine.data.comments import (
 )
 from ultramarine.layout import render_page_intro
 from ultramarine.models import AppSettings
+from ultramarine.ui import escape, render_feed_header
 
 
 @st.cache_resource(show_spinner=False)
@@ -48,10 +49,8 @@ def render(settings: AppSettings) -> None:
     repo = handle.repo
     _render_status(handle)
 
-    if "liked_comment_ids" not in st.session_state:
-        st.session_state["liked_comment_ids"] = set()
-    if "last_comment_at" not in st.session_state:
-        st.session_state["last_comment_at"] = 0.0
+    st.session_state.setdefault("liked_comment_ids", set())
+    st.session_state.setdefault("last_comment_at", 0.0)
 
     with st.form("community-post-form", clear_on_submit=True):
         nickname = st.text_input("昵称", value=settings.profile_name)
@@ -76,25 +75,25 @@ def render(settings: AppSettings) -> None:
         st.info("留言广场还很安静，欢迎成为第一位留下笔记的人。")
         return
 
-    st.markdown("### 最新留言")
+    render_feed_header("最新留言", "支持 Markdown 与代码块，适合留下问题、证明草稿或阅读札记。")
     liked_ids = st.session_state["liked_comment_ids"]
     for comment in comments:
-        st.markdown("---")
-        st.markdown(
-            f"""
-            <div class="comment-card">
-                <div class="feature-title">● {comment.nickname}</div>
-                <p class="comment-meta">{_friendly_timestamp(comment.created_at)}</p>
-                <p style="line-height:1.75;">{comment.content}</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        if st.button(
-            f"赞同 {comment.likes}",
-            key=f"like_button_{comment.id}",
-            disabled=(not repo.is_writable()) or (comment.id in liked_ids),
-        ):
-            repo.increment_like(comment.id)
-            liked_ids.add(comment.id)
-            st.rerun()
+        with st.container(border=True):
+            st.markdown(
+                f"""
+                <div class="comment-card" style="box-shadow:none;">
+                    <div class="feature-title">● {escape(comment.nickname)}</div>
+                    <p class="comment-meta">{escape(_friendly_timestamp(comment.created_at))}</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            st.markdown(comment.content)
+            if st.button(
+                f"赞同 {comment.likes}",
+                key=f"like_button_{comment.id}",
+                disabled=(not repo.is_writable()) or (comment.id in liked_ids),
+            ):
+                repo.increment_like(comment.id)
+                liked_ids.add(comment.id)
+                st.rerun()

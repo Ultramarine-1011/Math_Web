@@ -1,6 +1,6 @@
 # Ultramarine Mathematics Atelier
 
-一个基于 Streamlit 的公开数学展示站，包含 6 个页面：Home、Interactive Lab、Gallery、Animations、Notes、Community。
+一个基于 Streamlit 的公开数学展示站，包含 Home、Interactive Lab、Gallery、Animations、Complex Lab、Fractals、Notes、Community、AI Tutor 等页面。
 
 ## 本次重构做了什么
 
@@ -9,6 +9,7 @@
 - 笔记模块改成 `PDF + JSON 清单` 的结构
 - 留言模块改成仓储抽象，支持本地 JSON 与 Supabase 两种后端
 - 统一了视觉主题、Plotly 样式和站点首页
+- 升级为暗黑玻璃拟态界面，新增复变函数映射、分形探索器和可选 AI 数学助教
 - 补充了迁移脚本、测试和部署说明
 
 ## 目录概览
@@ -41,6 +42,11 @@ streamlit run app.py
 SUPABASE_URL = "https://your-project.supabase.co"
 SUPABASE_KEY = "your-key"
 SUPABASE_COMMENTS_TABLE = "comments"
+
+# 可选：启用 AI 数学助教
+LLM_API_KEY = "your-model-api-key"
+LLM_BASE_URL = "https://api.openai.com/v1"
+LLM_MODEL = "gpt-4o-mini"
 ```
 
 `.streamlit/secrets.example.toml` 提供了可复制模板。
@@ -72,3 +78,9 @@ python scripts/migrate_comments_to_supabase.py
 ```bash
 pytest
 ```
+
+## 新增数学功能
+
+- **复变映射实验室**：用相位色域和网格变形展示 `z^2`、`1/z`、`exp(z)` 与圆盘自同构。
+- **分形天文台**：以逃逸时间算法探索 Mandelbrot 集，并联动展示 Julia 集。
+- **AI 数学助教**：通过可选 LLM API 提供概念解释、证明提示和站内笔记导航；未配置密钥时自动进入离线演示模式。

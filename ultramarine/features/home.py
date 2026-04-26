@@ -7,6 +7,7 @@ import streamlit as st
 from ultramarine.content import FEATURE_CARDS, HOME_INTRO
 from ultramarine.data.notes import load_note_entries
 from ultramarine.models import AppSettings
+from ultramarine.ui import render_metric
 
 
 @st.cache_data(show_spinner=False)
@@ -22,6 +23,7 @@ def render(settings: AppSettings) -> None:
         str(settings.notes_dir),
     )
     registry = st.session_state.get("_page_registry", {})
+    visible_pages = max(1, len(registry))
 
     st.markdown(
         f"""
@@ -30,18 +32,9 @@ def render(settings: AppSettings) -> None:
             <h1 class="hero-title">{settings.site_title}</h1>
             <p class="hero-lead">{HOME_INTRO}</p>
             <div class="meta-row">
-                <div class="metric-card">
-                    <div class="metric-label">页面</div>
-                    <div class="metric-value">6</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">笔记</div>
-                    <div class="metric-value">{note_count}</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-label">推荐资料</div>
-                    <div class="metric-value">{featured_count}</div>
-                </div>
+                <div class="metric-card"><div class="metric-label">页面</div><div class="metric-value">{visible_pages}</div></div>
+                <div class="metric-card"><div class="metric-label">笔记</div><div class="metric-value">{note_count}</div></div>
+                <div class="metric-card"><div class="metric-label">推荐资料</div><div class="metric-value">{featured_count}</div></div>
             </div>
         </section>
         """,
@@ -49,6 +42,14 @@ def render(settings: AppSettings) -> None:
     )
 
     st.markdown('<div class="section-spacer"></div>', unsafe_allow_html=True)
+    m1, m2, m3 = st.columns(3)
+    with m1:
+        render_metric("Aesthetic", "Dark Lab", "Apple / Vercel 风格暗黑界面")
+    with m2:
+        render_metric("Compute", "Cached", "重型可视化计算按参数缓存")
+    with m3:
+        render_metric("Study", "Pure Math", "面向转入纯数学的学习路径")
+
     st.markdown("## 页面导览")
     columns = st.columns(2)
     for index, card in enumerate(FEATURE_CARDS):

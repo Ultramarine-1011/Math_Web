@@ -8,6 +8,19 @@ from ultramarine.navigation import build_navigation
 from ultramarine.theme import apply_global_styles, configure_plotly_theme
 
 
+def _initialize_session_state() -> None:
+    defaults = {
+        "_page_registry": {},
+        "animation_speed": "balanced",
+        "plot_quality": "high",
+        "notes_selected_tags": [],
+        "liked_comment_ids": set(),
+        "last_comment_at": 0.0,
+    }
+    for key, value in defaults.items():
+        st.session_state.setdefault(key, value)
+
+
 def run() -> None:
     settings = load_settings()
     st.set_page_config(
@@ -15,6 +28,7 @@ def run() -> None:
         page_icon="∫",
         layout="wide",
     )
+    _initialize_session_state()
     configure_plotly_theme()
     apply_global_styles()
 

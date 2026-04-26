@@ -6,7 +6,8 @@ import streamlit as st
 
 from ultramarine.layout import render_page_intro
 from ultramarine.models import AppSettings
-from ultramarine.theme import PALETTE, transparent_plotly_layout
+from ultramarine.theme import PALETTE, animation_button_menu, transparent_plotly_layout
+from ultramarine.ui import render_chart_shell, render_insight_panel
 
 
 @st.cache_data(show_spinner=False)
@@ -61,20 +62,20 @@ def build_linear_transform_figure(
                 x=transformed[0],
                 y=transformed[1],
                 mode="lines",
-                line={"color": "rgba(15, 82, 186, 0.35)", "width": 2},
+                line={"color": "rgba(125, 211, 252, 0.34)", "width": 2},
             ),
             go.Scatter(
                 x=[0, i_hat[0]],
                 y=[0, i_hat[1]],
                 mode="lines",
-                line={"color": PALETTE["coral"], "width": 5},
+                line={"color": PALETTE["coral"], "width": 7},
                 name="i-hat",
             ),
             go.Scatter(
                 x=[0, j_hat[0]],
                 y=[0, j_hat[1]],
                 mode="lines",
-                line={"color": PALETTE["jade"], "width": 5},
+                line={"color": PALETTE["jade"], "width": 7},
                 name="j-hat",
             ),
         ],
@@ -82,24 +83,16 @@ def build_linear_transform_figure(
     )
     figure.update_layout(
         **transparent_plotly_layout(height=520),
-        xaxis={"range": [-8, 8], "showgrid": False, "zeroline": True},
-        yaxis={"range": [-8, 8], "showgrid": False, "zeroline": True, "scaleanchor": "x", "scaleratio": 1},
-        updatemenus=[
-            {
-                "type": "buttons",
-                "buttons": [
-                    {
-                        "label": "播放变换",
-                        "method": "animate",
-                        "args": [None, {"frame": {"duration": 45, "redraw": True}, "fromcurrent": False}],
-                    }
-                ],
-                "x": 0.5,
-                "xanchor": "center",
-                "y": 1.04,
-                "yanchor": "bottom",
-            }
-        ],
+        xaxis={"range": [-8, 8], "showgrid": False, "zeroline": True, "zerolinecolor": "rgba(255,255,255,0.22)"},
+        yaxis={
+            "range": [-8, 8],
+            "showgrid": False,
+            "zeroline": True,
+            "zerolinecolor": "rgba(255,255,255,0.22)",
+            "scaleanchor": "x",
+            "scaleratio": 1,
+        },
+        updatemenus=animation_button_menu("播放变换", y=1.05, duration=45),
         showlegend=False,
     )
     return figure
@@ -107,12 +100,14 @@ def build_linear_transform_figure(
 
 @st.cache_data(show_spinner=False)
 def compute_surface_frames() -> tuple[tuple[np.ndarray, np.ndarray, np.ndarray], list[go.Frame]]:
-    u_value = np.linspace(-np.pi, np.pi, 48)
-    v_value = np.linspace(-2, 2, 48)
+    u_value = np.linspace(-np.pi, np.pi, 56)
+    v_value = np.linspace(-2, 2, 56)
     grid_u, grid_v = np.meshgrid(u_value, v_value)
 
     frames: list[go.Frame] = []
-    for theta in np.linspace(0, np.pi / 2, 40):
+    for raw_progress in np.linspace(0, 1, 84):
+        progress = raw_progress * raw_progress * (3 - 2 * raw_progress)
+        theta = progress * np.pi / 2
         x_value = np.cos(theta) * np.sinh(grid_v) * np.sin(grid_u) + np.sin(theta) * np.cosh(grid_v) * np.cos(grid_u)
         y_value = -np.cos(theta) * np.sinh(grid_v) * np.cos(grid_u) + np.sin(theta) * np.cosh(grid_v) * np.sin(grid_u)
         z_value = grid_u * np.cos(theta) + grid_v * np.sin(theta)
@@ -132,6 +127,7 @@ def build_surface_figure(initial_surface: tuple[np.ndarray, np.ndarray, np.ndarr
                 y=initial_surface[1],
                 z=initial_surface[2],
                 colorscale="Magma",
+                lighting={"ambient": 0.38, "diffuse": 0.88, "specular": 0.7, "roughness": 0.26},
                 showscale=False,
             )
         ],
@@ -139,27 +135,12 @@ def build_surface_figure(initial_surface: tuple[np.ndarray, np.ndarray, np.ndarr
     )
     figure.update_layout(
         **transparent_plotly_layout(height=640),
-        updatemenus=[
-            {
-                "type": "buttons",
-                "buttons": [
-                    {
-                        "label": "播放形变",
-                        "method": "animate",
-                        "args": [None, {"frame": {"duration": 60, "redraw": True}, "fromcurrent": True}],
-                    }
-                ],
-                "x": 0.5,
-                "xanchor": "center",
-                "y": 1.03,
-                "yanchor": "bottom",
-            }
-        ],
+        updatemenus=animation_button_menu("播放形变", y=1.04, duration=38),
         scene={
             "xaxis": {"range": [-4, 4], "visible": False},
             "yaxis": {"range": [-4, 4], "visible": False},
             "zaxis": {"range": [-4, 4], "visible": False},
-            "camera": {"eye": {"x": 1.25, "y": 1.2, "z": 0.55}},
+            "camera": {"eye": {"x": 1.42, "y": 1.18, "z": 0.72}},
         },
     )
     return figure
@@ -178,10 +159,10 @@ def render(settings: AppSettings) -> None:
     with tab_linear:
         st.markdown("### 连续线性变换")
         c1, c2 = st.columns(2)
-        a11 = c1.number_input("a11", -2.0, 2.0, 1.5, 0.1)
-        a21 = c1.number_input("a21", -2.0, 2.0, 0.5, 0.1)
-        a12 = c2.number_input("a12", -2.0, 2.0, 1.0, 0.1)
-        a22 = c2.number_input("a22", -2.0, 2.0, 1.2, 0.1)
+        a11 = c1.number_input("a11", -2.0, 2.0, 1.5, 0.1, key="linear_a11")
+        a21 = c1.number_input("a21", -2.0, 2.0, 0.5, 0.1, key="linear_a21")
+        a12 = c2.number_input("a12", -2.0, 2.0, 1.0, 0.1, key="linear_a12")
+        a22 = c2.number_input("a22", -2.0, 2.0, 1.2, 0.1, key="linear_a22")
 
         matrix, transformed, i_hat, j_hat, frames = compute_linear_transform_frames((a11, a12, a21, a22))
         determinant = float(np.linalg.det(matrix))
@@ -194,7 +175,15 @@ def render(settings: AppSettings) -> None:
                 st.info("行列式接近零，空间被压缩得非常明显。")
             else:
                 st.success(f"面积被缩放为原来的 {abs(determinant):.2f} 倍。")
+            render_insight_panel(
+                "Linear Transformation",
+                principle="矩阵把基向量移动到新位置，整个平面的网格由基向量线性组合决定。",
+                algorithm="在单位矩阵和目标矩阵之间插值，逐帧重算网格点和两个基向量。",
+                meaning="线性代数的抽象不是符号游戏，而是空间规则的可视化。",
+                parameters=(("det(A)", f"{determinant:.2f}"), ("面积缩放", f"{abs(determinant):.2f} 倍")),
+            )
         with chart_col:
+            render_chart_shell("Animated Linear Transformation")
             st.plotly_chart(
                 build_linear_transform_figure(transformed, i_hat, j_hat, frames),
                 width="stretch",
@@ -203,6 +192,14 @@ def render(settings: AppSettings) -> None:
     with tab_surface:
         st.markdown("### 从悬链曲面到螺旋曲面")
         initial_surface, frames = compute_surface_frames()
+        render_insight_panel(
+            "Catenoid to Helicoid",
+            principle="悬链曲面与螺旋曲面是一对共轭极小曲面，可以通过连续参数族相互形变。",
+            algorithm="使用 smoothstep 参数曲线插值，生成 84 帧曲面，减少起止瞬间的速度突变。",
+            meaning="拓扑和几何告诉我们：形状可以流动，性质可以在变形中保持。",
+            parameters=(("帧数", str(len(frames))), ("采样", "56 x 56")),
+        )
+        render_chart_shell("Catenoid to Helicoid")
         st.plotly_chart(
             build_surface_figure(initial_surface, frames),
             width="stretch",
