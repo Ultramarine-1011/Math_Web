@@ -28,7 +28,7 @@ def encode_pdf(file_bytes: bytes) -> str:
 def render(settings: AppSettings) -> None:
     render_page_intro(
         "笔记资料",
-        "这里整理了我目前收集和撰写的课程笔记。你可以按标签筛选，也可以直接在线预览。",
+        "这里整理了我目前收集和撰写的课程笔记。你可以直接在线预览或下载阅读。",
         kicker="资料整理",
     )
 
@@ -43,13 +43,7 @@ def render(settings: AppSettings) -> None:
         st.info("当前还没有可展示的笔记，请先补充 `data/notes_catalog.json` 和 PDF 文件。")
         return
 
-    all_tags = sorted({tag for note in notes for tag in note.tags})
-    selected_tags = st.multiselect("按标签筛选", all_tags, key="notes_selected_tags")
-    filtered_notes = [
-        note for note in notes if not selected_tags or all(tag in note.tags for tag in selected_tags)
-    ]
-
-    featured_notes = [note for note in filtered_notes if note.featured]
+    featured_notes = [note for note in notes if note.featured]
     if featured_notes:
         st.markdown("### 推荐阅读")
         columns = st.columns(min(3, len(featured_notes)))
@@ -67,7 +61,7 @@ def render(settings: AppSettings) -> None:
                 )
 
     st.markdown("### 浏览全部笔记")
-    options = {note.slug: note for note in filtered_notes}
+    options = {note.slug: note for note in notes}
     selected_slug = st.selectbox(
         "选择要预览的笔记",
         list(options.keys()),

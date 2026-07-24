@@ -13,7 +13,6 @@ def _initialize_session_state() -> None:
         "_page_registry": {},
         "animation_speed": "balanced",
         "plot_quality": "high",
-        "notes_selected_tags": [],
         "liked_comment_ids": set(),
         "last_comment_at": 0.0,
     }

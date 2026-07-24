@@ -5,7 +5,7 @@
     "summary": "围绕极限、连续、微分和积分展开的基础分析笔记，适合作为后续实变与泛函内容的入口。",
     "file_name": "数学分析笔记（上册）.pdf",
     "tags": ["数学分析", "微积分"],
-    "featured": true,
+    "featured": false,
     "sort_order": 10
   },
   {
@@ -14,7 +14,7 @@
     "summary": "聚焦多元微分、级数与高阶分析工具，和上册一起构成完整的数学分析复习框架。",
     "file_name": "数学分析笔记（下册）.pdf",
     "tags": ["数学分析", "级数"],
-    "featured": true,
+    "featured": false,
     "sort_order": 20
   },
   {
@@ -23,7 +23,7 @@
     "summary": "把上下册内容合并后的整合版本，适合打印、通读和总复习。",
     "file_name": "数学分析笔记（完整）.pdf",
     "tags": ["数学分析", "总复习"],
-    "featured": false,
+    "featured": true,
     "sort_order": 30
   },
   {
@@ -32,7 +32,7 @@
     "summary": "覆盖线性方程组、矩阵、行列式与线性空间，是线性代数动画页背后的理论储备。",
     "file_name": "高等代数笔记（上册）.pdf",
     "tags": ["高等代数", "线性代数"],
-    "featured": true,
+    "featured": false,
     "sort_order": 40
   },
   {
@@ -50,7 +50,7 @@
     "summary": "高等代数上下册合并版，适合集中查阅与课程回顾。",
     "file_name": "高等代数笔记（完整）.pdf",
     "tags": ["高等代数", "总复习"],
-    "featured": false,
+    "featured": true,
     "sort_order": 60
   },
   {
@@ -59,8 +59,17 @@
     "summary": "整理测度、可测函数与积分理论，是从经典分析走向现代分析的重要过渡。",
     "file_name": "实变函数笔记.pdf",
     "tags": ["实变函数", "测度论"],
-    "featured": true,
+    "featured": false,
     "sort_order": 70
+  },
+  {
+    "slug": "functional-analysis",
+    "title": "泛函分析笔记",
+    "summary": "整理赋范空间、内积空间、有界线性算子与基本定理，衔接实变函数和现代分析课程。",
+    "file_name": "泛函分析笔记.pdf",
+    "tags": ["泛函分析", "现代分析"],
+    "featured": false,
+    "sort_order": 75
   },
   {
     "slug": "abstract-algebra",
@@ -88,5 +97,14 @@
     "tags": ["数论", "离散数学"],
     "featured": false,
     "sort_order": 100
+  },
+  {
+    "slug": "probability-statistics",
+    "title": "概率论与数理统计笔记",
+    "summary": "覆盖随机变量、常见分布、极限定理和统计推断，适合概率统计课程复习使用。",
+    "file_name": "概率论与数理统计笔记.pdf",
+    "tags": ["概率论", "数理统计"],
+    "featured": true,
+    "sort_order": 110
   }
 ]
